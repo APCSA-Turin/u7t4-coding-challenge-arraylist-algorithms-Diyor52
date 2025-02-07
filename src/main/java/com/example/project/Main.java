@@ -290,29 +290,30 @@ public class Main{
     // fix34([1, 3, 1, 4, 4, 3, 1]) → [1, 3, 4, 1, 1, 3, 4]
     // fix34([3, 2, 2, 4]) → [3, 4, 2, 2]
 
-        public static ArrayList<Integer> fix34(ArrayList<Integer> list) {
-            ArrayList<Integer> result = new ArrayList<>(list);
-            ArrayList<Integer> three = new ArrayList<>();
-            for (int i = 0; i < result.size(); i++) {
-                if (result.get(i) == 3) {
-                    three.add(i);
-                }
-            }
-            ArrayList<Integer> freeFours = new ArrayList<>();
-            for (int i = 0; i < result.size(); i++) {
-                if (result.get(i) == 4 && (i == 0 || result.get(i - 1) != 3)) {
-                    freeFours.add(i);
-                }
-            }
-            for (int threeIndex : three) {
-                int fourIndex = freeFours.remove(0);
-                int temp = result.get(threeIndex + 1);
-                result.set(threeIndex + 1, 4);
-                result.set(fourIndex, temp);
-            }
-            
-            return result;
+    public static ArrayList<Integer> fix34(ArrayList<Integer> list) {
+        ArrayList<Integer> three = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == 3) {
+                three.add(i);//add index of the 3 to list
+             } 
         }
+        ArrayList<Integer> freeFours = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == 4 && (i == 0 || list.get(i - 1) != 3)) {
+                freeFours.add(i);//add index of the free four to list
+            }
+        }
+        for (int i = 0; i < three.size(); i++) {
+            int threeIndex = three.get(i);
+            int fourIndex = freeFours.get(i);
+
+            int temp = list.get(threeIndex + 1);  
+            list.set(threeIndex + 1, 4);          
+            list.set(fourIndex, temp);   //swapping         
+        }
+            
+        return list;
+    }
     
 
 
@@ -361,21 +362,21 @@ public class Main{
         if (count > maxCount) {
             maxCount = count;
         }
-        if (count != firstElementCount) {
+        if (count != firstElementCount) {//first element used as reference to check if other elements are the same amount
             allSameFrequency = false;
         }
     }
     if (allSameFrequency) {
         return new ArrayList<>();
     }
-    for (int i = 0; i < numList.length; i++) {
+    for (int i = 0; i < numList.length; i++) {//checks for additional numbers
         int count = 0;
         for (int j = 0; j < numList.length; j++) {
             if (numList[j] == numList[i]) {
                 count++;
             }
         }
-        if (count == maxCount && !result.contains(numList[i])) {
+        if (count == maxCount && !result.contains(numList[i])) {//max count num will already be in here and then rest check again
             result.add(numList[i]);
         }
     }
